@@ -3,6 +3,8 @@ const taskInput = document.getElementById("taskInput");
 const dueDateInput = document.getElementById("dueDate");
 const reminderInput = document.getElementById("reminder");
 const prioritySelect = document.getElementById("priority");
+const categoryInput = document.getElementById("category");
+const repeatSelect = document.getElementById("repeat"); // daily, weekly, none
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 
@@ -11,84 +13,94 @@ const allBtn = document.getElementById("allTasks");
 const completedBtn = document.getElementById("completedTasks");
 const pendingBtn = document.getElementById("pendingTasks");
 const clearCompletedBtn = document.getElementById("clearCompleted");
+const sortDueDateBtn = document.getElementById("sortDueDate");
+const darkModeToggle = document.getElementById("darkModeToggle");
+const themeSelect = document.getElementById("themeSelect");
+
+// ===== NOTIFICATION PERMISSION =====
+if ("Notification" in window && Notification.permission !== "granted") {
+    Notification.requestPermission();
+}
 
 // ===== TASK STORAGE =====
-let tasks = [];
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let filterMode = "all";
+
+// ===== SAVE TO LOCAL STORAGE =====
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 // ===== ADD TASK =====
 addBtn.addEventListener("click", addTask);
 
 function addTask() {
-
     const taskText = taskInput.value.trim();
     const dueDate = dueDateInput.value;
     const reminder = reminderInput.value;
     const priority = prioritySelect.value;
+    const category = categoryInput.value || "General";
+    const repeat = repeatSelect.value || "none";
 
-    if(taskText === "") return;
+    if (!taskText) return;
 
     const task = {
         id: Date.now(),
         text: taskText,
-        dueDate: dueDate,
-        reminder: reminder,
-        priority: priority,
-        completed: false
+        dueDate,
+        reminder,
+        priority,
+        category,
+        repeat,
+        completed: false,
+        notified: false,
+        subtasks: []
     };
 
     tasks.push(task);
+    saveTasks();
     clearInputs();
     renderTasks();
 }
 
 // ===== CLEAR INPUTS =====
-function clearInputs(){
+function clearInputs() {
     taskInput.value = "";
     dueDateInput.value = "";
     reminderInput.value = "";
     prioritySelect.value = "low";
+    categoryInput.value = "";
+    repeatSelect.value = "none";
 }
 
 // ===== RENDER TASKS =====
-function renderTasks(){
-
+function renderTasks() {
     taskList.innerHTML = "";
-
     let filteredTasks = tasks;
 
-    if(filterMode === "completed"){
-        filteredTasks = tasks.filter(t => t.completed);
-    }
-    else if(filterMode === "pending"){
-        filteredTasks = tasks.filter(t => !t.completed);
-    }
+    if (filterMode === "completed") filteredTasks = tasks.filter(t => t.completed);
+    else if (filterMode === "pending") filteredTasks = tasks.filter(t => !t.completed);
 
     const searchValue = searchInput.value.toLowerCase();
-    filteredTasks = filteredTasks.filter(t => 
-        t.text.toLowerCase().includes(searchValue)
-    );
+    filteredTasks = filteredTasks.filter(t => t.text.toLowerCase().includes(searchValue));
 
     filteredTasks.forEach(task => {
-
         const li = document.createElement("li");
         li.classList.add(task.priority);
-
-        if(task.completed){
-            li.classList.add("completed");
-        }
+        if (task.completed) li.classList.add("completed");
 
         // ===== CHECKBOX =====
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.checked = task.completed;
-
-        checkbox.addEventListener("change", ()=>{
+        checkbox.addEventListener("change", () => {
             task.completed = checkbox.checked;
+            handleRepetitiveTask(task);
+            saveTasks();
             renderTasks();
         });
 
-        // ===== TASK TEXT =====
+        // ===== TASK DETAILS =====
         const detailsDiv = document.createElement("div");
         detailsDiv.classList.add("task-details");
 
@@ -97,25 +109,27 @@ function renderTasks(){
 
         const date = document.createElement("small");
         date.classList.add("task-date");
-        date.textContent = task.dueDate ? "Due: " + task.dueDate : "";
+        date.textContent = task.dueDate ? `Due: ${task.dueDate}` : "";
 
         const reminder = document.createElement("small");
         reminder.classList.add("task-reminder");
-        reminder.textContent = task.reminder ? "Reminder: " + task.reminder : "";
+        reminder.textContent = task.reminder ? `Reminder: ${task.reminder}` : "";
 
-        detailsDiv.appendChild(taskText);
-        detailsDiv.appendChild(date);
-        detailsDiv.appendChild(reminder);
+        const category = document.createElement("small");
+        category.classList.add("task-category");
+        category.textContent = `Category: ${task.category}`;
+
+        detailsDiv.append(taskText, date, reminder, category);
 
         // ===== EDIT BUTTON =====
         const editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
         editBtn.classList.add("edit-btn");
-
-        editBtn.addEventListener("click", ()=>{
+        editBtn.addEventListener("click", () => {
             const newText = prompt("Edit task:", task.text);
-            if(newText){
+            if (newText) {
                 task.text = newText;
+                saveTasks();
                 renderTasks();
             }
         });
@@ -124,42 +138,114 @@ function renderTasks(){
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
         deleteBtn.classList.add("delete-btn");
-
-        deleteBtn.addEventListener("click", ()=>{
+        deleteBtn.addEventListener("click", () => {
             tasks = tasks.filter(t => t.id !== task.id);
+            saveTasks();
             renderTasks();
         });
 
-        li.appendChild(checkbox);
-        li.appendChild(detailsDiv);
-        li.appendChild(editBtn);
-        li.appendChild(deleteBtn);
-
+        li.append(checkbox, detailsDiv, editBtn, deleteBtn);
         taskList.appendChild(li);
     });
 }
 
-// ===== SEARCH =====
+// ===== SEARCH & FILTER =====
 searchInput.addEventListener("input", renderTasks);
+allBtn.addEventListener("click", () => { filterMode = "all"; renderTasks(); });
+completedBtn.addEventListener("click", () => { filterMode = "completed"; renderTasks(); });
+pendingBtn.addEventListener("click", () => { filterMode = "pending"; renderTasks(); });
 
-// ===== FILTERS =====
+// ===== CLEAR COMPLETED =====
+clearCompletedBtn.addEventListener("click", () => {
+    tasks = tasks.filter(t => !t.completed);
+    saveTasks();
+    renderTasks();
+});
+
+// ===== SORT DUE DATE =====
+sortDueDateBtn.addEventListener("click", () => {
+    tasks.sort((a, b) => {
+        if (!a.dueDate) return 1;
+        if (!b.dueDate) return -1;
+        return new Date(a.dueDate) - new Date(b.dueDate);
+    });
+    renderTasks();
+});
+
+// ===== DARK/LIGHT MODE & THEMES =====
+darkModeToggle.addEventListener("click", () => document.body.classList.toggle("dark-mode"));
+themeSelect.addEventListener("change", e => document.body.style.setProperty("--theme-color", e.target.value));
+
+// ===== REMINDER CHECK =====
+function checkReminders() {
+    const now = new Date().getTime();
+    tasks.forEach(task => {
+        if (task.reminder && !task.notified) {
+            // Convert "HH:MM" to today's full date
+            const [hours, minutes] = task.reminder.split(":");
+            const reminderTime = new Date();
+            reminderTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+
+            if (reminderTime.getTime() <= now) {
+                if ("Notification" in window && Notification.permission === "granted") {
+                    new Notification("⏰ Task Reminder", { body: task.text });
+                }
+                console.log(`Reminder triggered for: ${task.text}`);
+                task.notified = true;
+                saveTasks();
+            }
+        }
+    });
+}
+
+// ===== REPETITIVE TASK HANDLER =====
+function handleRepetitiveTask(task) {
+    if (task.repeat === "daily") {
+        const newTask = { ...task, id: Date.now(), completed: false, notified: false };
+        tasks.push(newTask);
+    } else if (task.repeat === "weekly") {
+        const newTask = { ...task, id: Date.now(), completed: false, notified: false };
+        const newDue = new Date(task.dueDate);
+        newDue.setDate(newDue.getDate() + 7);
+        newTask.dueDate = newDue.toISOString().split("T")[0];
+        tasks.push(newTask);
+    }
+}
+
+// ===== INITIALIZE =====
+window.addEventListener("DOMContentLoaded", () => {
+    renderTasks();
+    checkReminders();
+});
+
+// Check reminders every 30 seconds
+setInterval(checkReminders, 30000);
+
+function setActiveButton(button) {
+    // Remove active class from all filter buttons
+    allBtn.classList.remove("active");
+    completedBtn.classList.remove("active");
+    pendingBtn.classList.remove("active");
+
+    // Add active class to the clicked button
+    button.classList.add("active");
+}
+
+// Filter button event listeners
 allBtn.addEventListener("click", ()=>{
     filterMode = "all";
     renderTasks();
+    setActiveButton(allBtn);
 });
 
 completedBtn.addEventListener("click", ()=>{
     filterMode = "completed";
     renderTasks();
+    setActiveButton(completedBtn);
 });
 
 pendingBtn.addEventListener("click", ()=>{
     filterMode = "pending";
     renderTasks();
-});
-
-// ===== CLEAR COMPLETED =====
-clearCompletedBtn.addEventListener("click", ()=>{
-    tasks = tasks.filter(t => !t.completed);
-    renderTasks();
+    setActiveButton(pendingBtn);
 });

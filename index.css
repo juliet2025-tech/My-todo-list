@@ -25,7 +25,7 @@ body {
   background-color: #ffffff;
   width: 90%;
   padding: 15px;
-   max-height: 90vh;
+   max-height: 150vh;
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: background-color 0.3s, color 0.3s;

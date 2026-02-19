@@ -331,7 +331,7 @@ body.completed-view li {
 }
 
 .app-logo {
-    width: 50px;       /* This is a perfect size for a navbar */
+    width: 100px;       /* This is a perfect size for a navbar */
     height: auto;      /* Keeps the image from looking squashed or stretched */
     object-fit: contain;
     margin-right: 60px;

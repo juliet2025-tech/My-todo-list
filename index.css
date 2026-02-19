@@ -42,12 +42,15 @@ body {
 /* ===== TITLE ===== */
 h1 {
   color: #ff4da6;
-  margin-bottom: 150px;
-  
+  margin-bottom: 50px;
+  font-size: 40px;
+  transform: translateY(30px);
   }
 
   .container > h2 {
-    margin-top: -160px; /* pulls it closer */
+    margin-top: 10px; /* pulls it closer */
+    font-size: 35px;
+    transform: translateY(-30px);
 }
 
 
@@ -60,7 +63,7 @@ h1 {
   border-radius: 6px;
   border: 1px solid #ccc;
   transition: background-color 0.3s, color 0.3s;
-   margin-top: 40px;
+   margin-top: 60px;
 }
 
 .input-section {
@@ -80,7 +83,9 @@ h1 {
     flex: 1;                  /* Allows them to grow/shrink equally */
     min-width: 0;             /* Important: allows flex items to shrink below their content size */
     padding: 8px 5px;         /* Smaller padding for mobile */
-    font-size: 12px;          /* Smaller text to save space */
+    font-size: 20px;
+    transform: translateY(-30px); /* Negative moves it UP */
+          /* Smaller text to save space */
 }
 
 /* ADD TASK BUTTON */
@@ -296,6 +301,7 @@ body.dark-mode li {
   .input-section button {
     width: 100%;
     margin: 5px 0;
+    transform: translateY(-70px);
   }
 
   .filter-btns {
@@ -325,11 +331,10 @@ body.completed-view li {
 }
 
 .app-logo {
-    width: 80px;
-    height: 80px;
+    width: 50px;       /* This is a perfect size for a navbar */
+    height: auto;      /* Keeps the image from looking squashed or stretched */
     object-fit: contain;
-    margin-top: -120px;
-    margin-right: 45px;
+    margin-right: 60px;
 }
 
 /* This only triggers on screens smaller than 600px (Phones) */

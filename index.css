@@ -51,6 +51,26 @@ h1 {
    margin-top: 20px;
 }
 
+.input-section {
+    display: flex;
+    flex-direction: row;      /* Force side-by-side */
+    flex-wrap: nowrap;        /* Prevent jumping to the next line */
+    align-items: center;
+    gap: 5px;                 /* Reduce gap so they fit better */
+    width: 100%;
+    overflow-x: auto;         /* Adds a side-scroll IF they still don't fit */
+}
+
+/* Make the inputs and buttons shrink to fit */
+.input-section input, 
+.input-section select, 
+.input-section button {
+    flex: 1;                  /* Allows them to grow/shrink equally */
+    min-width: 0;             /* Important: allows flex items to shrink below their content size */
+    padding: 8px 5px;         /* Smaller padding for mobile */
+    font-size: 12px;          /* Smaller text to save space */
+}
+
 /* ADD TASK BUTTON */
 #addBtn {
   background-color: #ff4da6;

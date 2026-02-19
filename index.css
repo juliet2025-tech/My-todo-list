@@ -19,11 +19,12 @@ body {
 .container {
   background-color: #ffffff;
   width: 90%;
-  max-width: 700px;
-  padding: 25px;
+  padding: 15px;
+  
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: background-color 0.3s, color 0.3s;
+  max-width: 450px;
 }
 
 /* ===== TITLE ===== */
@@ -250,9 +251,11 @@ body.dark-mode li {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
-  .input-section {
-    flex-direction: column;
-  }
+    .input-section {
+        display: flex;
+        flex-direction: column; /* Stacks items on top of each other */
+        gap: 10px;              /* Adds space between the stacked items */
+    }
 
 
 
@@ -283,16 +286,34 @@ body.completed-view li {
 
 .header-row {
     display: flex;
-    justify-content: space-between; /* Pushes H1 left and Logo right */
-    align-items: center;           /* Keeps them perfectly leveled */
-    width: 100%;                   /* Ensures it stretches the full width */
-    margin-bottom: 5px;           /* Adds space before the H2 */
+        flex-direction: row; /* Forces horizontal alignment */
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;          /* Adds space before the H2 */
 }
 
 .app-logo {
-    width: 250px;
-    height: 250px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     margin-top: -120px;
-    margin-right: -45px;
+    margin-right: 45px;
+}
+
+/* This only triggers on screens smaller than 600px (Phones) */
+@media (max-width: 600px) {
+    .input-section {
+        display: flex;
+        flex-direction: column; /* Stacks items on top of each other */
+        gap: 10px;              /* Adds space between the stacked items */
+    }
+
+    .header-row h1 {
+        font-size: 1.5rem;      /* Shrinks the title slightly so it fits */
+    }
+    
+    input, select, button {
+        width: 100%;            /* Makes inputs full-width for easy tapping */
+        height: 45px;           /* Makes buttons "finger-friendly" */
+    }
 }

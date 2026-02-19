@@ -28,8 +28,8 @@ body {
     padding: 20px;           /* More padding makes it feel bigger/roomier */
     
     /* Change these lines */
-    min-height: 60vh;        /* Ensures it's at least over half the screen */
-    max-height: 90vh;        /* Prevents it from disappearing off the bottom */
+    min-height: 90vh;        /* Ensures it's at least over half the screen */
+    max-height: 1500vh;        /* Prevents it from disappearing off the bottom */
     
     margin: 20px auto;       /* Centers it horizontally with some top/bottom gap */
     overflow-y: auto; 

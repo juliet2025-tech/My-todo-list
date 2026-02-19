@@ -29,12 +29,12 @@ body {
 /* ===== TITLE ===== */
 h1 {
   color: #ff4da6;
-  margin-bottom: 20px;
+  margin-bottom: 150px;
   
   }
 
   .container > h2 {
-    margin-top: -30px; /* pulls it closer */
+    margin-top: -160px; /* pulls it closer */
 }
 
 
@@ -279,3 +279,20 @@ body.completed-view li {
     background-color: #1490d8; /* light green for completed view */
 }
 
+
+
+.header-row {
+    display: flex;
+    justify-content: space-between; /* Pushes H1 left and Logo right */
+    align-items: center;           /* Keeps them perfectly leveled */
+    width: 100%;                   /* Ensures it stretches the full width */
+    margin-bottom: 5px;           /* Adds space before the H2 */
+}
+
+.app-logo {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    margin-top: -120px;
+    margin-right: -45px;
+}

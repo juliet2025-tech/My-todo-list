@@ -13,19 +13,27 @@ body {
   justify-content: center;
   padding: 15px;
   transition: background-color 0.3s, color 0.3s;
+   align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
+
 
 /* ===== MAIN CONTAINER ===== */
 .container {
   background-color: #ffffff;
   width: 90%;
   padding: 15px;
-  
-  border-radius: 12px;
+   max-height: 90vh;
+  border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: background-color 0.3s, color 0.3s;
   max-width: 450px;
+   overflow-y: auto; 
+    box-sizing: border-box; 
 }
+
 
 /* ===== TITLE ===== */
 h1 {

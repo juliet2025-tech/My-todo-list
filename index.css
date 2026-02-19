@@ -24,7 +24,7 @@ body {
 .container {
     background-color: #ffffff;
     width: 150%;              /* Increased from 90% to fill more side space */
-    max-width: 550px;
+    max-width: 750px;
     padding: 20px;           /* More padding makes it feel bigger/roomier */
     
     /* Change these lines */

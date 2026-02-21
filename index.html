@@ -19,31 +19,26 @@
     </div>
         <h2>your personal task world</h2>
 
-        <!-- ===== INPUT SECTION ===== -->
-        <div class="input-section">
-            <input type="text" id="taskInput" placeholder="Enter task">
+    <div class="top-inputs">
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <input type="date" id="dueDate">
+    <input type="time" id="reminder">
+    <select id="priority">
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+    </select>
+</div>
 
-            <input type="date" id="dueDate">
-
-            <input type="time" id="reminder">
-            <!-- Using time input for reminder -->
-
-            <select id="priority">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
-
-            <input type="text" id="category" placeholder="Category (e.g. Work, Personal)">
-
-            <select id="repeat">
-                <option value="none">Repeat: None</option>
-                <option value="daily">Repeat: Daily</option>
-                <option value="weekly">Repeat: Weekly</option>
-            </select>
-
-            <button id="addBtn">Add Task</button>
-        </div>
+<div class="bottom-inputs">
+    <input type="text" id="category" placeholder="Category (e.g. Work, Personal)">
+    <select id="repeat">
+        <option>None</option>
+        <option>Daily</option>
+        <option>Weekly</option>
+    </select>
+    <button id="addBtn">Add Task</button>
+</div>
 
         <!-- ===== SEARCH & FILTER ===== -->
         <input type="text" id="searchTask" placeholder="Search tasks...">

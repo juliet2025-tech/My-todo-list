@@ -9,7 +9,6 @@ const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 const filterButtons = document.querySelectorAll(".filter-btns button");
 
-
 const searchInput = document.getElementById("searchTask");
 const allBtn = document.getElementById("allTasks");
 const completedBtn = document.getElementById("completedTasks");
@@ -43,12 +42,6 @@ function addTask() {
     const repeat = repeatSelect.value || "none";
 
     if (!taskText) return;
-
-    taskInput.value = "";
-    prioritySelect.selectedIndex = 0;
-    repeatSelect.selectedIndex = 0;
-
-
 
     const task = {
         id: Date.now(),
@@ -96,7 +89,6 @@ function renderTasks() {
         const li = document.createElement("li");
         li.classList.add(task.priority);
 
-        // Add special style if in Completed filter
         if (task.completed && filterMode === "completed") {
             li.classList.add("completed-highlight");
         } else if (task.completed) {
@@ -168,16 +160,21 @@ searchInput.addEventListener("input", renderTasks);
 
 // ===== ACTIVE FILTER BUTTON =====
 function setActiveButton(button) {
-    allBtn.classList.remove("active");
-    completedBtn.classList.remove("active");
-    pendingBtn.classList.remove("active");
-    button.classList.add("active");
+    filterButtons.forEach(btn => btn.classList.remove("active")); // remove from all
+    button.classList.add("active"); // add to clicked
 }
 
-// Filter buttons
-allBtn.addEventListener("click", ()=>{ filterMode="all"; renderTasks(); setActiveButton(allBtn); });
-completedBtn.addEventListener("click", ()=>{ filterMode="completed"; renderTasks(); setActiveButton(completedBtn); });
-pendingBtn.addEventListener("click", ()=>{ filterMode="pending"; renderTasks(); setActiveButton(pendingBtn); });
+// Filter buttons click events
+filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        if (button.id === "allTasks") filterMode = "all";
+        else if (button.id === "completedTasks") filterMode = "completed";
+        else if (button.id === "pendingTasks") filterMode = "pending";
+
+        renderTasks();
+        setActiveButton(button);
+    });
+});
 
 // ===== CLEAR COMPLETED =====
 clearCompletedBtn.addEventListener("click", () => {
@@ -188,9 +185,9 @@ clearCompletedBtn.addEventListener("click", () => {
 
 // ===== SORT DUE DATE =====
 sortDueDateBtn.addEventListener("click", () => {
-    tasks.sort((a,b)=>{
-        if(!a.dueDate) return 1;
-        if(!b.dueDate) return -1;
+    tasks.sort((a, b) => {
+        if (!a.dueDate) return 1;
+        if (!b.dueDate) return -1;
         return new Date(a.dueDate) - new Date(b.dueDate);
     });
     renderTasks();
@@ -200,11 +197,11 @@ sortDueDateBtn.addEventListener("click", () => {
 function checkReminders() {
     const now = new Date().getTime();
     tasks.forEach(task => {
-        if(task.reminder && !task.notified) {
+        if (task.reminder && !task.notified) {
             const reminderTime = new Date(task.reminder).getTime();
-            if(reminderTime <= now) {
-                if("Notification" in window && Notification.permission === "granted") {
-                    new Notification("⏰ Task Reminder", {body: task.text});
+            if (reminderTime <= now) {
+                if ("Notification" in window && Notification.permission === "granted") {
+                    new Notification("⏰ Task Reminder", { body: task.text });
                 }
                 console.log(`Reminder triggered for: ${task.text}`);
                 task.notified = true;
@@ -217,21 +214,21 @@ setInterval(checkReminders, 30000);
 
 // ===== REPETITIVE TASK HANDLER =====
 function handleRepetitiveTask(task) {
-    if(task.repeat==="daily") {
-        const newTask = {...task, id: Date.now(), completed:false, notified:false};
+    if (task.repeat === "daily") {
+        const newTask = { ...task, id: Date.now(), completed: false, notified: false };
         tasks.push(newTask);
-    } else if(task.repeat==="weekly") {
-        const newTask = {...task, id: Date.now(), completed:false, notified:false};
+    } else if (task.repeat === "weekly") {
+        const newTask = { ...task, id: Date.now(), completed: false, notified: false };
         const newDue = new Date(task.dueDate);
-        newDue.setDate(newDue.getDate()+7);
+        newDue.setDate(newDue.getDate() + 7);
         newTask.dueDate = newDue.toISOString().split("T")[0];
         tasks.push(newTask);
     }
 }
 
 // ===== INITIALIZE =====
-window.addEventListener("DOMContentLoaded", ()=>{
-    filterMode="all";
+window.addEventListener("DOMContentLoaded", () => {
+    filterMode = "all";
     setActiveButton(allBtn);
     renderTasks();
     checkReminders();

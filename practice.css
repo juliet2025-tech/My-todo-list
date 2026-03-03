@@ -14,6 +14,16 @@ body {
     justify-content: center;
 }
 
+.container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 550px; /* Narrower for mobile-first feel */
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
 
 /* ===== 2. HEADER & LOGO ===== */
 .header-row {
@@ -164,65 +174,6 @@ body {
     border-left-color: #ff3b3b !important; /* Red */
 }
 
-/* 1. FORCE UNIFORM STYLE FOR ALL INPUTS */
-.top-inputs input, 
-.top-inputs select, 
-.bottom-inputs input, 
-.bottom-inputs select,
-#addBtn {
-    height: 48px;            /* Exact same height for everything */
-    padding: 0 12px;         /* Uniform internal spacing */
-    font-size: 15px;         /* Consistent text size */
-    border: 1.5px solid #ddd;
-    border-radius: 10px;     /* Same rounded corners */
-    background-color: #fff;
-    color: #333;
-    outline: none;
-    width: 100%;             /* Let the container control width */
-    margin: 0;   
-                /* Remove any default browser gaps */
-}
-
-/* 2. MATCHING THE ROW STRUCTURE */
-.top-inputs, 
-.bottom-inputs {
-    display: flex;
-    gap: 6px;                /* Exact same horizontal gap for both rows */
-    margin-bottom: 8px;      /* Exact same vertical gap between rows */
-}
-
-/* 3. ENSURE EQUAL WIDTHS */
-/* This makes every item in both rows take up 1/3 of the space */
-.top-inputs > *, 
-.bottom-inputs > * {
-    flex: 1; 
-    min-width: 0;            /* Prevents overflow on small screens */
-}
-
-/* 4. BUTTON STYLE OVERRIDE (Same size, different color) */
-#addBtn {
-    background-color: #ff4da6;
-    color: white;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-     padding: 12px 20px;
-     border-radius: 6px;
-}
-
-#addBtn:hover {
-  opacity: 0.8;
-
-}
-
-#addBtn:active {
-    transform: scale(0.98);
-}
-
 
 
 .app-logo {
@@ -292,32 +243,6 @@ input:focus {
     background-color: #ff4da6;
     color: #fff;
     padding: 0 5px;
-}
-
-/* Desktop hover */
-.filter-btns button:hover {
-     opacity: 0.85;  /* Light green */
-     /* Black text for contrast */
-}
-
-.filter-btns button.active {
-    background-color: #90ee90; /* Light green */
-    color: #000; /* Black text for contrast */
-}
-
-/* Hover and press effect only for non-active buttons */
-.filter-btns button:hover:not(.active) {
-    opacity: 0.85;
-}
-.filter-btns button:active:not(.active) {
-    opacity: 0.8;
-    transform: scale(0.97);
-}
-
-/* Smooth transitions */
-.filter-btns button {
-    transition: opacity 0.2s ease, transform 0.1s ease, background-color 0.2s ease;
-    cursor: pointer;
 }
 
 /* The buttons you wanted specifically named */

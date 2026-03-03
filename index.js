@@ -7,6 +7,8 @@ const categoryInput = document.getElementById("category");
 const repeatSelect = document.getElementById("repeat"); // daily, weekly, none
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
+const filterButtons = document.querySelectorAll(".filter-btns button");
+
 
 const searchInput = document.getElementById("searchTask");
 const allBtn = document.getElementById("allTasks");
@@ -42,6 +44,12 @@ function addTask() {
 
     if (!taskText) return;
 
+    taskInput.value = "";
+    prioritySelect.selectedIndex = 0;
+    repeatSelect.selectedIndex = 0;
+
+
+
     const task = {
         id: Date.now(),
         text: taskText,
@@ -65,9 +73,9 @@ function clearInputs() {
     taskInput.value = "";
     dueDateInput.value = "";
     reminderInput.value = "";
-    prioritySelect.value = "low";
+    prioritySelect.value = "";
     categoryInput.value = "";
-    repeatSelect.value = "none";
+    repeatSelect.value = "";
 }
 
 // ===== RENDER TASKS =====
@@ -228,4 +236,3 @@ window.addEventListener("DOMContentLoaded", ()=>{
     renderTasks();
     checkReminders();
 });
-

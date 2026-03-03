@@ -24,19 +24,21 @@
     <input type="date" id="dueDate">
     <input type="time" id="reminder">
     <select id="priority">
-        <option>Low</option>
-        <option>Medium</option>
-        <option>High</option>
-    </select>
+    <option value="" disabled selected>Priority</option>
+    <option value="Low">Low</option>
+    <option value="Medium">Medium</option>
+    <option value="High">High</option>
+</select>
 </div>
 
 <div class="bottom-inputs">
     <input type="text" id="category" placeholder="Category (e.g. Work, Personal)">
     <select id="repeat">
-        <option>None</option>
-        <option>Daily</option>
-        <option>Weekly</option>
-    </select>
+    <option value="" disabled selected>Repeat</option>
+    <option value="None">None</option>
+    <option value="Daily">Daily</option>
+    <option value="Weekly">Weekly</option>
+</select>
     <button id="addBtn">Add Task</button>
 </div>
 
@@ -44,17 +46,17 @@
         <input type="text" id="searchTask" placeholder="Search tasks...">
 
         <div class="filter-btns">
-            <button id="allTasks">All</button>
-            <button id="completedTasks">Completed</button>
-            <button id="pendingTasks">Pending</button>
-            <button id="sortDueDate">Sort by Due Date</button>
+            <button id="all">All</button>
+            <button id="completed">Completed</button>
+            <button id="pending">Pending</button>
+            
             <button id="clearCompleted">Clear Completed</button>
         </div>
 
         <!-- ===== TASK LIST ===== -->
         <ul id="taskList"></ul>
 
-        <!-- ===== DARK MODE & THEME ===== -->
+         <button id="sortDueDate">Sort by Due Date</button>
        
 
     <script src="index.js"></script>

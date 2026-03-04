@@ -1,3 +1,4 @@
+
 // ===== GET ELEMENTS =====
 const taskInput = document.getElementById("taskInput");
 const dueDateInput = document.getElementById("dueDate");
@@ -106,15 +107,21 @@ if (searchValue !== "") {
         }
 
         // ===== CHECKBOX =====
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.checked = task.completed;
-        checkbox.addEventListener("change", () => {
-            task.completed = checkbox.checked;
-            handleRepetitiveTask(task);
-            saveTasks();
-            renderTasks();
-        });
+       // ===== CHECKBOX =====
+const checkbox = document.createElement("input");
+checkbox.type = "checkbox";
+checkbox.checked = task.completed;
+checkbox.addEventListener("change", () => {
+    task.completed = checkbox.checked;
+
+    // Only trigger repeat when marking task as completed
+    if (task.completed) {
+        handleRepetitiveTask(task);
+    }
+
+    saveTasks();
+    renderTasks();
+});
 
         // ===== TASK DETAILS =====
         const detailsDiv = document.createElement("div");
@@ -223,17 +230,52 @@ function checkReminders() {
 setInterval(checkReminders, 30000);
 
 // ===== REPETITIVE TASK HANDLER =====
+// ===== HELPER FUNCTION =====
+// ===== HELPER FUNCTION =====
+// This ensures we get a YYYY-MM-DD string without timezone shifts
+function formatLocalDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+}
+
+// ===== REPETITIVE TASK HANDLER =====
 function handleRepetitiveTask(task) {
-    if (task.repeat === "daily") {
-        const newTask = { ...task, id: Date.now(), completed: false, notified: false };
-        tasks.push(newTask);
-    } else if (task.repeat === "weekly") {
-        const newTask = { ...task, id: Date.now(), completed: false, notified: false };
-        const newDue = new Date(task.dueDate);
-        newDue.setDate(newDue.getDate() + 7);
-        newTask.dueDate = newDue.toISOString().split("T")[0];
-        tasks.push(newTask);
+    if (task.repeat === "none" || !task.completed) return;
+
+    // 1. Get the base date. 
+    // We use a regex replace to change '-' to '/' to avoid UTC/Local time confusion in some browsers
+    let baseDate;
+    if (task.dueDate) {
+        baseDate = new Date(task.dueDate.replace(/-/g, '\/')); 
+    } else {
+        baseDate = new Date();
     }
+
+    // 2. Create the new date object
+    let newDate = new Date(baseDate);
+
+    // 3. Increment based on type
+    if (task.repeat === "daily") {
+        newDate.setDate(newDate.getDate() + 1);
+    } else if (task.repeat === "weekly") {
+        newDate.setDate(newDate.getDate() + 7);
+    }
+
+    // 4. Create the new task object
+    const newTask = {
+        ...task,                // Copy all properties
+        id: Date.now() + 1,     // Unique ID (added +1 to avoid collision with rapid clicks)
+        dueDate: formatLocalDate(newDate),
+        completed: false,       // New task is not done
+        notified: false         // Reset notification for the new date
+    };
+
+    // 5. Add to array and update UI
+    tasks.push(newTask);
+    saveTasks();
+    renderTasks();
 }
 
 // ===== INITIALIZE =====

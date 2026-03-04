@@ -10,9 +10,9 @@ const taskList = document.getElementById("taskList");
 const filterButtons = document.querySelectorAll(".filter-btns button");
 
 const searchInput = document.getElementById("searchTask");
-const allBtn = document.getElementById("allTasks");
-const completedBtn = document.getElementById("completedTasks");
-const pendingBtn = document.getElementById("pendingTasks");
+const allBtn = document.getElementById("alltask");
+const completedBtn = document.getElementById("completedtask");
+const pendingBtn = document.getElementById("pendingtask");
 const clearCompletedBtn = document.getElementById("clearCompleted");
 const sortDueDateBtn = document.getElementById("sortDueDate");
 
@@ -76,14 +76,24 @@ function renderTasks() {
     taskList.innerHTML = "";
     let filteredTasks = tasks;
 
-    // Apply filter mode
-    if (filterMode === "completed") filteredTasks = tasks.filter(t => t.completed);
-    else if (filterMode === "pending") filteredTasks = tasks.filter(t => !t.completed);
+    
+// Apply filter mode
+if (filterMode === "completed") 
+    filteredTasks = tasks.filter(t => t.completed);
+else if (filterMode === "pending") 
+    filteredTasks = tasks.filter(t => !t.completed);
 
-    // Apply search filter
-    const searchValue = searchInput.value.toLowerCase();
-    filteredTasks = filteredTasks.filter(t => t.text.toLowerCase().includes(searchValue));
+    // 👇 ADD IT RIGHT HERE
+    console.log("Search value on load:", searchInput.value);
 
+   // Apply search filter
+const searchValue = searchInput.value.trim().toLowerCase();
+
+if (searchValue !== "") {
+    filteredTasks = filteredTasks.filter(t =>
+        t.text.toLowerCase().includes(searchValue)
+    );
+}
     // Render each task
     filteredTasks.forEach(task => {
         const li = document.createElement("li");
@@ -167,9 +177,9 @@ function setActiveButton(button) {
 // Filter buttons click events
 filterButtons.forEach(button => {
     button.addEventListener("click", () => {
-        if (button.id === "allTasks") filterMode = "all";
-        else if (button.id === "completedTasks") filterMode = "completed";
-        else if (button.id === "pendingTasks") filterMode = "pending";
+        if (button.id === "alltask") filterMode = "all";
+        else if (button.id === "completedtask") filterMode = "completed";
+        else if (button.id === "pendingtask") filterMode = "pending";
 
         renderTasks();
         setActiveButton(button);
@@ -227,9 +237,11 @@ function handleRepetitiveTask(task) {
 }
 
 // ===== INITIALIZE =====
+
+
 window.addEventListener("DOMContentLoaded", () => {
     filterMode = "all";
-    setActiveButton(allBtn);
+    setActiveButton(allBtn); // allBtn is no longer null
     renderTasks();
     checkReminders();
 });

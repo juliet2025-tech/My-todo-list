@@ -2,7 +2,7 @@ Simple Task Master
 
 Simple Task Master is a sleek, responsive, and user-friendly To-Do List application built with vanilla JavaScript, HTML, and CSS. It helps users manage their daily tasks efficiently, avoid procrastination, and stay organized.
 
-Features
+Features:
 
 Add Tasks: Quickly add new tasks with details such as due date, reminder time, priority, category, and repetition.
 
@@ -26,7 +26,7 @@ Local Storage: All tasks persist across page reloads and browser sessions.
 
 Responsive Design: Works seamlessly on desktops, tablets, and mobile devices.
 
-Technologies Used
+Technologies Used:
 
 HTML5: Semantic structure for accessibility and readability.
 
@@ -38,7 +38,7 @@ LocalStorage API: Persistent storage for tasks.
 
 Browser Notifications API: Optional reminders for tasks with notifications.
 
-How It Was Built
+How It Was Built:
 
 Planning the Features: Defined the core functionalities—add, edit, delete, filter, and sort tasks.
 
@@ -50,7 +50,7 @@ JavaScript Logic: Implemented task creation, completion toggling, editing, delet
 
 Testing & Refinement: Ensured the app works across different browsers and devices, and added enhancements like repetitive tasks and notifications.
 
-Usage
+Usage:
 
 Clone or Download the repository.
 
@@ -60,18 +60,3 @@ Start Adding Tasks using the input fields.
 
 Manage Your Tasks: Mark complete, edit, delete, search, filter, or sort tasks.
 
-Future Improvements
-
-Add user authentication to save tasks across devices.
-
-Integrate cloud storage for advanced syncing.
-
-Add drag-and-drop task reordering.
-
-Implement priority-based alerts and notifications.
-
-This version fully reflects your current app’s features, tools, and development process.
-
-If you want, I can also make a shorter, punchy version that’s perfect for GitHub so it looks professional and easy to read at a glance.
-
-Do you want me to do that?

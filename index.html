@@ -1,66 +1,65 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do-It</title>
     <link rel="stylesheet" href="index.css">
     <link rel="icon" type="image/png" href="t__6_-removebg-preview.png">
-    
 </head>
-
 <body>
     <div class="container">
-         
+        <!-- HEADER -->
         <div class="header-row">
-        <h1>To Do-It</h1>   
-        <img src="t__7_-removebg-preview.png" class="app-logo">
-    </div>
-        <h2>your personal task world</h2>
+            <h1>To Do-It</h1>
+            <img src="t__7_-removebg-preview.png" class="app-logo">
+        </div>
+        <h2>Your Personal Task World</h2>
 
-    <div class="top-inputs">
-    <input type="text" id="taskInput" placeholder="Enter task" autocomplete="off">
-    <input type="date" id="dueDate">
-    <input type="time" id="reminder">
-    <select id="priority">
-    <option value="" disabled selected>Priority</option>
-    <option value="Low">Low</option>
-    <option value="Medium">Medium</option>
-    <option value="High">High</option>
-</select>
-</div>
+        <!-- TOP INPUTS -->
+        <div class="top-inputs">
+            <input type="text" id="taskInput" placeholder="Enter task" autocomplete="off">
+            <input type="date" id="dueDate">
+            <input type="time" id="reminder">
+            <select id="priority">
+                <option value="" disabled selected>Priority</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+        </div>
 
-<div class="bottom-inputs">
-    <input type="text" id="category" placeholder="Category (e.g. Work, Personal)" autocomplete="off">
-    <select id="repeat">
-    <option value="" disabled selected>Repeat</option>
-    <option value="None">None</option>
-    <option value="Daily">Daily</option>
-    <option value="Weekly">Weekly</option>
-</select>
-    <button id="addBtn">Add Task</button>
-</div>
+        <!-- BOTTOM INPUTS -->
+        <div class="bottom-inputs">
+            <input type="text" id="category" placeholder="Category (e.g. Work, Personal)" autocomplete="off">
+            <select id="repeat">
+                <option value="" disabled selected>Repeat</option>
+                <option value="None">None</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+            </select>
+            <button id="addBtn">Add Task</button>
+        </div>
 
-        <!-- ===== SEARCH & FILTER ===== -->
+        <!-- SEARCH -->
         <input type="text" id="searchTask" placeholder="Search tasks...">
 
+        <!-- FILTER BUTTONS -->
         <div class="filter-btns">
             <button id="alltask">All</button>
             <button id="completedtask">Completed</button>
             <button id="pendingtask">Pending</button>
-            
             <button id="clearCompleted">Clear Completed</button>
         </div>
 
-        <!-- ===== TASK LIST ===== -->
+        <!-- TASK LIST -->
         <ul id="taskList"></ul>
 
-         <button id="sortDueDate">Sort by Due Date</button>
-       
+        <!-- SORT BUTTON -->
+        <button id="sortDueDate">Sort by Due Date</button>
+    </div>
 
+    <!-- LINK JS -->
     <script src="index.js"></script>
 </body>
-
 </html>

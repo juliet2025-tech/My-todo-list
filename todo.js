@@ -17,6 +17,62 @@ const pendingBtn = document.getElementById("pendingTasks");
 const clearCompletedBtn = document.getElementById("clearCompleted");
 const sortDueDateBtn = document.getElementById("sortDueDate");
 
+
+
+// ===== REPETITIVE TASK HANDLER =====
+
+function formatLocalDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+}
+
+// ===== REPETITIVE TASK HANDLER =====
+function handleRepetitiveTask(task) {
+    // Stop if task has no repeat or is 'none'
+    if (!task.repeat || task.repeat.toLowerCase() === "none") return;
+
+    // Only run if task is completed
+    if (!task.completed) return;
+
+    let baseDate = task.dueDate ? new Date(task.dueDate.replace(/-/g, '/')) : new Date();
+    let newDate = new Date(baseDate);
+
+    if (task.repeat.toLowerCase() === "daily") newDate.setDate(newDate.getDate() + 1);
+    else if (task.repeat.toLowerCase() === "weekly") newDate.setDate(newDate.getDate() + 7);
+
+    const newTask = {
+        ...task,
+        id: Date.now(),
+        dueDate: formatLocalDate(newDate),
+        completed: false,
+        notified: false
+    };
+
+    tasks.push(newTask);
+    saveTasks();
+    renderTasks();
+}
+
+
+
+ // ===== CHECKBOX =====
+const checkbox = document.createElement("input");
+checkbox.type = "checkbox";
+checkbox.checked = task.completed;
+checkbox.addEventListener("change", () => {
+    task.completed = checkbox.checked;
+
+    // Only trigger repeat when marking task as completed
+    if (task.completed) {
+        handleRepetitiveTask(task);
+    }
+
+    saveTasks();
+    renderTasks();
+});
+
 // ===== REQUEST NOTIFICATION PERMISSION =====
 if (Notification.permission !== "granted") {
     Notification.requestPermission();

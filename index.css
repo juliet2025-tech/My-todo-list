@@ -360,9 +360,10 @@ input:focus {
 
 .task-meta-info {
     display: flex;
-    flex-wrap: wrap;        /* Allows items to wrap if screen is too small */
+    flex-wrap: wrap; 
+    flex-direction: column;        /* Allows items to wrap if screen is too small */
     gap: 10px;
-    font-size: 13px;        /* Keeps secondary info smaller but clear */
+    font-size: 15px;        /* Keeps secondary info smaller but clear */
     color: #777;
 }
 
